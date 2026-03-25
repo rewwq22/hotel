@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Расчёт текстиля для открытия гостиницы | Блог ОТЕЛЬ-СЕРВИС ЮГ</title>
+    <meta name="description" content="Как рассчитать количество белья, полотенец и текстиля для открытия гостиницы. Формулы, таблицы, рекомендации.">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#65a30d",
+                        "primary-dark": "#4d7c0f",
+                        "footer-bg": "#1f291a",
+                        "footer-input": "#2d3826",
+                        "background-light": "#f6f7f6",
+                        "background-dark": "#1a1c18",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="canonical" href="index.html">
+
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function(m,e,t,r,i,k,a){
+            m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+            m[i].l=1*new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+            k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=106791450', 'ym');
+        ym(106791450, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/106791450" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!-- /Yandex.Metrika counter -->
+
+</head>
+
+<body class="bg-background-light text-slate-800 font-display antialiased">
+    <!-- Header -->
+    <header class="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <div
+                        class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white shadow-sm shadow-primary/40">
+                        <span class="material-icons">vpn_key</span>
+                    </div>
+                    <div>
+                        <span
+                            class="block text-xl font-bold tracking-tight text-slate-900 leading-none uppercase">ОТЕЛЬ-СЕРВИС
+                            ЮГ</span>
+                        <span class="text-xs text-primary font-bold uppercase tracking-wider">Оснащение отелей под
+                            ключ</span>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="hidden md:flex space-x-8">
+                    <a class="text-slate-600 hover:text-primary font-medium transition-colors"
+                        href="../../katalog/index.html">Каталог</a>
+                    <a class="text-slate-600 hover:text-primary font-medium transition-colors"
+                        href="../../resheniya/index.html">Решения</a>
+                    <a class="text-slate-600 hover:text-primary font-medium transition-colors"
+                        href="../index.html">Блог</a>
+                    <a class="text-slate-600 hover:text-primary font-medium transition-colors"
+                        href="../../kontakty/index.html">Контакты</a>
+                </nav>
+
+                <!-- Contact & Action -->
+                <div class="flex items-center gap-4">
+                    <div class="hidden lg:flex flex-col items-end mr-2">
+                        <span class="text-xs text-slate-500">Отдел продаж</span>
+                        <a class="text-sm font-bold text-slate-900 hover:text-primary transition-colors"
+                            href="tel:+79184623269">+7 (918) 462-32-69</a>
+                    </div>
+                    <!-- Social Icons (Compact) -->
+                    <div class="hidden lg:flex gap-2">
+                        <a href="https://wa.me/79184623269" target="_blank"
+                            class="flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 text-slate-500 hover:border-[#25D366] hover:text-[#25D366] hover:bg-[#25D366]/5 font-bold transition-all text-xs"
+                            title="WhatsApp">WA</a>
+                        <a href="https://t.me/+79184623269" target="_blank"
+                            class="flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 text-slate-500 hover:border-[#0088cc] hover:text-[#0088cc] hover:bg-[#0088cc]/5 font-bold transition-all text-xs"
+                            title="Telegram">TG</a>
+                        <a href="https://max.ru/u/f9LHodD0cOLtlZKqeHi5NhewJ9kVRPXACHuIBn9Du0G5Py8-NqzEFWiLJTs"
+                            target="_blank"
+                            class="flex items-center justify-center w-10 h-10 rounded-lg border border-slate-200 text-slate-500 hover:border-primary hover:text-primary hover:bg-primary/5 font-bold transition-all text-xs"
+                            title="MAX.ru">MAX</a>
+                    </div>
+
+                    <button
+                        class="js-price-popup bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-lg font-medium transition-all shadow-lg shadow-primary/30 text-sm hidden sm:block">
+                        Получить прайс
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn"
+                        class="md:hidden p-2 text-slate-600 hover:text-primary transition-colors">
+                        <span class="material-icons text-2xl">menu</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Mobile Menu (Hidden by default) -->
+            <div id="mobile-menu"
+                class="hidden md:hidden bg-white border-t border-slate-200 absolute w-full left-0 top-20 shadow-lg h-screen overflow-y-auto pb-20">
+                <div class="px-4 py-6 space-y-4 flex flex-col">
+                    <a class="text-slate-900 font-medium hover:text-primary transition-colors text-lg border-b border-slate-50 pb-2"
+                        href="../../katalog/index.html">Каталог</a>
+                    <a class="text-slate-900 font-medium hover:text-primary transition-colors text-lg border-b border-slate-50 pb-2"
+                        href="../../resheniya/index.html">Решения</a>
+                    <a class="text-slate-900 font-medium hover:text-primary transition-colors text-lg border-b border-slate-50 pb-2"
+                        href="../index.html">Блог</a>
+                    <a class="text-slate-900 font-medium hover:text-primary transition-colors text-lg border-b border-slate-50 pb-2"
+                        href="../../kontakty/index.html">Контакты</a>
+                    <div class="pt-4">
+                        <div class="text-xs text-slate-500 mb-1">Отдел продаж</div>
+                        <a class="text-slate-900 font-bold hover:text-primary transition-colors text-xl"
+                            href="tel:+79184623269">+7 (918) 462-32-69</a>
+                    </div>
+                    <div class="flex gap-3 mt-4">
+                        <a href="https://wa.me/79184623269" target="_blank"
+                            class="flex-1 flex items-center justify-center py-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-[#25D366] hover:text-white hover:border-[#25D366] font-bold transition-all">WA</a>
+                        <a href="https://t.me/+79184623269" target="_blank"
+                            class="flex-1 flex items-center justify-center py-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-[#0088cc] hover:text-white hover:border-[#0088cc] font-bold transition-all">TG</a>
+                        <a href="https://max.ru/u/f9LHodD0cOLtlZKqeHi5NhewJ9kVRPXACHuIBn9Du0G5Py8-NqzEFWiLJTs"
+                            target="_blank"
+                            class="flex-1 flex items-center justify-center py-3 rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary font-bold transition-all">MAX</a>
+                    </div>
+                    <button
+                        class="js-price-popup bg-primary text-center text-white px-5 py-3 rounded-lg font-bold shadow-lg shadow-primary/30 mt-4 w-full">
+                        Получить прайс
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Article Content -->
+    <section class="pt-32 pb-16 bg-white">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex mb-8 text-sm text-slate-500">
+                <a href="../../index.html" class="hover:text-primary transition-colors">Главная</a>
+                <span class="mx-2">/</span>
+                <a href="../index.html" class="hover:text-primary transition-colors">Блог</a>
+                <span class="mx-2">/</span>
+                <span class="text-slate-800 font-medium">Расчёт текстиля</span>
+            </nav>
+
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">Расчёт текстиля для открытия гостиницы</h1>
+                    <div class="my-8 rounded-xl overflow-hidden shadow-lg">
+                        <img src="../../image/blog-raschet.jpg" data-img-slot="blog-raschet" alt="" class="w-full h-64 md:h-80 object-cover bg-slate-200">
+                    </div>
+            <div class="text-sm text-slate-500 mb-8 flex items-center gap-4">
+                <span>12 минут чтения</span>
+                <span>&bull;</span>
+                <span>Обновлено: 12 Мар 2026</span>
+            </div>
+
+            <div class="prose prose-slate prose-lg max-w-none">
+                <p class="lead text-xl text-slate-600 mb-8">
+                    Одна из самых частых ошибок при открытии гостиницы -- неправильный расчет количества текстиля. Купить слишком мало -- и горничные будут ждать, пока белье вернется из прачечной. Купить слишком много -- заморозить бюджет в складских запасах. В этой статье даем точные формулы и таблицы для расчета.
+                </p>
+
+                <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">Главная формула расчета</h2>
+                <p>
+                    Базовая формула для расчета количества комплектов постельного белья:
+                </p>
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 my-6">
+                    <p class="text-center text-lg font-bold text-slate-900 mb-2">
+                        Количество спальных мест &times; 3 комплекта = минимальный запас
+                    </p>
+                    <p class="text-center text-sm text-slate-600">
+                        1 комплект на кровати + 1 в стирке + 1 чистый на складе
+                    </p>
+                </div>
+                <p>
+                    Три комплекта -- это абсолютный минимум, обеспечивающий бесперебойную ротацию. На практике для отелей с высокой загрузкой (курортные зоны, бизнес-отели в крупных городах) рекомендуется иметь <strong>4-5 комплектов на спальное место</strong>, чтобы учесть:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-slate-700">
+                    <li>Пиковые нагрузки (полная загрузка в сезон).</li>
+                    <li>Задержки в прачечной (поломка оборудования, праздники).</li>
+                    <li>Выбраковку изношенного белья.</li>
+                    <li>Сезонный текстиль (летние/зимние одеяла).</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">Расчет постельного белья</h2>
+                <p>
+                    Комплект постельного белья для гостиницы включает: простыню (или простыню на резинке), пододеяльник и наволочки (1-2 шт.). Количество зависит от типа номера.
+                </p>
+                <div class="overflow-x-auto my-8">
+                    <table class="w-full text-left text-sm text-slate-600 border border-slate-200 rounded-lg">
+                        <thead class="bg-slate-50 text-slate-900 font-bold">
+                            <tr>
+                                <th class="p-4 border-b">Тип номера</th>
+                                <th class="p-4 border-b">Спальных мест</th>
+                                <th class="p-4 border-b">Комплектов на номер (x3)</th>
+                                <th class="p-4 border-b">Наволочек на номер (x3)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 font-bold">Стандарт (1 кровать)</td>
+                                <td class="p-4">1</td>
+                                <td class="p-4">3</td>
+                                <td class="p-4">6 (по 2 подушки)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Стандарт Дабл (1 двуспальная)</td>
+                                <td class="p-4">1 (двуспальная)</td>
+                                <td class="p-4">3</td>
+                                <td class="p-4">12 (по 2 подушки на гостя)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Твин (2 односпальные)</td>
+                                <td class="p-4">2</td>
+                                <td class="p-4">6</td>
+                                <td class="p-4">12</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Семейный / Люкс</td>
+                                <td class="p-4">2-3</td>
+                                <td class="p-4">6-9</td>
+                                <td class="p-4">12-18</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">Расчет полотенец</h2>
+                <p>
+                    Стандартный набор полотенец на одного гостя включает:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-slate-700">
+                    <li><strong>Банное полотенце</strong> (70&times;140 см) -- 1 шт.</li>
+                    <li><strong>Полотенце для рук</strong> (50&times;90 см) -- 1 шт.</li>
+                    <li><strong>Полотенце для ног (коврик)</strong> (50&times;70 см) -- 1 шт. на номер.</li>
+                    <li><strong>Полотенце для лица</strong> (30&times;50 см) -- 1 шт. (для отелей 4-5 звезд).</li>
+                </ul>
+                <p>
+                    Формула аналогичная: <strong>количество гостей &times; количество полотенец на гостя &times; 3 смены</strong>. Для отеля на 2 гостей в номере это 3-5 полотенец &times; 3 = 9-15 полотенец на номер.
+                </p>
+                <p>
+                    Полотенца изнашиваются быстрее постельного белья (особенно банные), поэтому рекомендуется закладывать запас в 20% сверх расчетного количества.
+                </p>
+
+                <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">Расчет подушек и одеял</h2>
+                <p>
+                    Подушки и одеяла -- это не расходный материал, но они тоже требуют запаса:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-slate-700">
+                    <li><strong>Подушки:</strong> 2 штуки на спальное место + 10-15% запас (для замены по запросу гостя: аллергия, предпочтения по жесткости).</li>
+                    <li><strong>Одеяла:</strong> 1 штука на спальное место + 10% запас. В курортных отелях рекомендуется иметь 2 варианта -- летнее (облегченное) и зимнее.</li>
+                    <li><strong>Наматрасники:</strong> 2 штуки на спальное место (1 на кровати, 1 в стирке/на складе).</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">Дополнительный текстиль</h2>
+                <p>
+                    Помимо базового комплекта, для полноценного оснащения гостиницы понадобятся:
+                </p>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-slate-700">
+                    <li><strong>Халаты:</strong> 2 шт. на номер &times; 2 смены = 4 шт. на номер (для отелей 4-5 звезд).</li>
+                    <li><strong>Тапочки одноразовые:</strong> расходный материал, 2 пары на номер &times; 30 дней = 60 пар на номер в месяц.</li>
+                    <li><strong>Покрывала / пледы:</strong> 1 шт. на кровать + 10% запас.</li>
+                    <li><strong>Шторы:</strong> по количеству окон, запас не требуется (замена раз в 2-3 года).</li>
+                    <li><strong>Скатерти (для ресторана):</strong> количество столов &times; 3 смены.</li>
+                </ul>
+
+                <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">Пример расчета: отель на 30 номеров</h2>
+                <p>
+                    Рассмотрим конкретный пример для отеля категории 3 звезды на 30 номеров: 20 стандартных номеров (1 двуспальная кровать), 8 номеров Твин (2 односпальные кровати), 2 номера Люкс (1 двуспальная + 1 односпальная).
+                </p>
+                <div class="overflow-x-auto my-8">
+                    <table class="w-full text-left text-sm text-slate-600 border border-slate-200 rounded-lg">
+                        <thead class="bg-slate-50 text-slate-900 font-bold">
+                            <tr>
+                                <th class="p-4 border-b">Позиция</th>
+                                <th class="p-4 border-b">Расчет</th>
+                                <th class="p-4 border-b">Итого, шт.</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-4 font-bold">Пододеяльники (двуспальные)</td>
+                                <td class="p-4">(20 + 2) номера &times; 1 кровать &times; 3 смены</td>
+                                <td class="p-4 font-bold">66</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Пододеяльники (1,5-спальные)</td>
+                                <td class="p-4">8 номеров &times; 2 кровати &times; 3 + 2 номера &times; 1 кровать &times; 3</td>
+                                <td class="p-4 font-bold">54</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Простыни (двуспальные)</td>
+                                <td class="p-4">(20 + 2) &times; 1 &times; 3</td>
+                                <td class="p-4 font-bold">66</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Простыни (1,5-спальные)</td>
+                                <td class="p-4">8 &times; 2 &times; 3 + 2 &times; 1 &times; 3</td>
+                                <td class="p-4 font-bold">54</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Наволочки 70&times;70</td>
+                                <td class="p-4">(20&times;2 + 8&times;4 + 2&times;4 гостей) &times; 2 подушки &times; 3 смены</td>
+                                <td class="p-4 font-bold">360</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Полотенца банные</td>
+                                <td class="p-4">(20&times;2 + 8&times;2 + 2&times;3 гостей) &times; 3 смены</td>
+                                <td class="p-4 font-bold">186</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Полотенца для рук</td>
+                                <td class="p-4">Аналогично банным</td>
+                                <td class="p-4 font-bold">186</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Коврики для ног</td>
+                                <td class="p-4">30 номеров &times; 3 смены</td>
+                                <td class="p-4 font-bold">90</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Подушки</td>
+                                <td class="p-4">(20&times;4 + 8&times;4 + 2&times;6) &times; 1.1 (с запасом)</td>
+                                <td class="p-4 font-bold">137</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Одеяла</td>
+                                <td class="p-4">(20&times;1 + 8&times;2 + 2&times;2) &times; 1.1</td>
+                                <td class="p-4 font-bold">44</td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-bold">Наматрасники</td>
+                                <td class="p-4">(20&times;1 + 8&times;2 + 2&times;2) &times; 2</td>
+                                <td class="p-4 font-bold">80</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>
+                    Это базовый расчет без учета дополнительных позиций (халаты, декоративные подушки, покрывала). Точный расчет зависит от концепции отеля, целевой аудитории и планируемой загрузки.
+                </p>
+
+                <h2 class="text-2xl font-bold text-slate-900 mt-12 mb-4">Советы по закупке</h2>
+                <ul class="list-disc pl-6 space-y-2 mb-6 text-slate-700">
+                    <li><strong>Закупайте у одного поставщика.</strong> Это гарантирует единый оттенок белого, одинаковую плотность и совместимость размеров.</li>
+                    <li><strong>Заказывайте с запасом 10-15%.</strong> Первые партии белья могут дать усадку, а часть изделий уйдет на выбраковку.</li>
+                    <li><strong>Выбирайте стандартные размеры.</strong> Нестандартные матрасы потребуют индивидуального пошива, что дороже и дольше.</li>
+                    <li><strong>Просите образцы.</strong> Перед крупным заказом обязательно закажите образцы и протестируйте их в реальных условиях (несколько стирок).</li>
+                    <li><strong>Уточняйте сроки поставки.</strong> Пошив крупной партии занимает 2-4 недели. Планируйте заказ заранее.</li>
+                </ul>
+            </div>
+
+            <div class="mt-16 p-8 bg-slate-50 rounded-2xl border border-slate-200">
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Открываете гостиницу? Рассчитаем текстиль бесплатно!</h3>
+                <p class="text-slate-600 mb-6">Пришлите нам планировку номерного фонда, и мы подготовим точный расчет всего текстиля с ценами. Опыт оснащения более 200 объектов по России.</p>
+                <a href="../../kontakty/index.html"
+                    class="inline-block bg-primary hover:bg-primary-dark text-white font-bold py-3 px-8 rounded-lg transition-colors">Заказать бесплатный расчет</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer & Contact -->
+    <footer class="bg-footer-bg text-white pt-20 pb-10" id="contact">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 mb-16">
+                <div>
+                    <h2 class="text-3xl font-bold mb-4">Готовы обновить текстиль?</h2>
+                    <p class="text-slate-300 mb-8">Оставьте заявку, и мы рассчитаем стоимость заказа для вашего отеля.</p>
+                    <form class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input type="text" placeholder="Ваше имя"
+                                class="w-full px-4 py-3 rounded-lg bg-footer-input border border-slate-600 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors text-white placeholder-slate-400">
+                            <input type="tel" placeholder="Телефон"
+                                class="w-full px-4 py-3 rounded-lg bg-footer-input border border-slate-600 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors text-white placeholder-slate-400">
+                        </div>
+                        <div class="flex items-center gap-4 pt-2">
+                            <button type="submit"
+                                class="bg-primary hover:bg-primary-dark text-white px-8 py-3 rounded-lg font-bold transition-colors w-full sm:w-auto shadow-lg shadow-black/20">Получить
+                                расчет</button>
+                        </div>
+                        <div class="flex items-start gap-2 pt-2 text-xs text-slate-400">
+                            <input type="checkbox" id="privacy-policy" required checked
+                                class="mt-0.5 rounded border-slate-600 bg-footer-input text-primary focus:ring-primary">
+                            <label for="privacy-policy">Я согласен с <a href="../../politika-konfidencialnosti/index.html"
+                                    class="underline hover:text-slate-300">политикой обработки персональных
+                                    данных</a></label>
+                        </div>
+                    </form>
+
+                    <div class="mt-8 flex gap-3">
+                        <a href="https://wa.me/79184623269" target="_blank"
+                            class="flex items-center justify-center px-5 py-3 rounded-lg bg-footer-input border border-slate-600 hover:bg-[#25D366] hover:border-[#25D366] hover:text-white text-slate-300 font-bold transition-all text-sm">
+                            WA
+                        </a>
+                        <a href="https://t.me/+79184623269" target="_blank"
+                            class="flex items-center justify-center px-5 py-3 rounded-lg bg-footer-input border border-slate-600 hover:bg-[#0088cc] hover:border-[#0088cc] hover:text-white text-slate-300 font-bold transition-all text-sm">
+                            TG
+                        </a>
+                        <a href="https://max.ru/u/f9LHodD0cOLtlZKqeHi5NhewJ9kVRPXACHuIBn9Du0G5Py8-NqzEFWiLJTs"
+                            target="_blank"
+                            class="flex items-center justify-center px-5 py-3 rounded-lg bg-footer-input border border-slate-600 hover:bg-primary hover:border-primary hover:text-white text-slate-300 font-bold transition-all text-sm">
+                            MAX
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-primary">Разделы</h4>
+                        <ul class="space-y-3 text-slate-300 text-sm">
+                            <li><a href="../../postelnoe-bele-optom/index.html"
+                                    class="hover:text-white transition-colors">Опт</a></li>
+                            <li><a href="../../gostinichnoe-postelnoe-bele/index.html"
+                                    class="hover:text-white transition-colors">Гостиничное белье</a></li>
+                            <li><a href="../../beloe-postelnoe-bele/index.html"
+                                    class="hover:text-white transition-colors">Белое белье</a></li>
+                            <li><a href="../../tekstil-dlya-horeca/index.html"
+                                    class="hover:text-white transition-colors">Текстиль HoReCa</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-primary">Навигация</h4>
+                        <ul class="space-y-3 text-slate-300 text-sm">
+                            <li><a href="../../katalog/index.html" class="hover:text-white transition-colors">Каталог</a></li>
+                            <li><a href="../../resheniya/index.html" class="hover:text-white transition-colors">Решения</a></li>
+                            <li><a href="../index.html" class="hover:text-white transition-colors">Блог</a></li>
+                            <li><a href="../../kontakty/index.html" class="hover:text-white transition-colors">Контакты</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg mb-4 text-primary">Контакты</h4>
+                        <ul class="space-y-3 text-slate-300 text-sm">
+                            <li class="flex items-center gap-2">
+                                <span class="material-icons text-primary text-sm">phone</span>
+                                <a href="tel:+79184623269" class="hover:text-white">+7 (918) 462-32-69</a>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-icons text-primary text-sm">email</span>
+                                <a href="mailto:89184623269@mail.ru" class="hover:text-white">89184623269@mail.ru</a>
+                            </li>
+                            <li class="flex items-center gap-2">
+                                <span class="material-icons text-primary text-sm">badge</span>
+                                <span>ИНН 2312233967</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="border-t border-slate-700/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-400">
+                <div>&copy; <span class="js-current-year">2024</span> ОТЕЛЬ-СЕРВИС ЮГ. Все права защищены.</div>
+                <a href="../../politika-konfidencialnosti/index.html" class="hover:text-white transition-colors">Политика
+                    обработки персональных данных</a>
+            </div>
+        </div>
+    </footer>
+    <script src="../../js/script.js"></script>
+    <script src="../../js/image-loader.js"></script>
+</body>
+
+</html>

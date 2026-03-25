@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админка фото | ОТЕЛЬ-СЕРВИС ЮГ</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; }
+
+        .header { background: #1e293b; border-bottom: 2px solid #65a30d; padding: 16px 24px; position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-size: 20px; color: #65a30d; }
+        .header p { font-size: 13px; color: #94a3b8; margin-top: 4px; }
+
+        .stats { display: flex; gap: 16px; padding: 16px 24px; background: #1e293b; border-bottom: 1px solid #334155; }
+        .stat { background: #0f172a; padding: 12px 20px; border-radius: 8px; border: 1px solid #334155; }
+        .stat-num { font-size: 28px; font-weight: 700; color: #65a30d; }
+        .stat-label { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
+        .filters { padding: 16px 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn { padding: 6px 14px; border-radius: 6px; border: 1px solid #334155; background: #1e293b; color: #94a3b8; cursor: pointer; font-size: 13px; transition: all 0.2s; }
+        .filter-btn:hover, .filter-btn.active { background: #65a30d; color: white; border-color: #65a30d; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; padding: 20px 24px; }
+
+        .slot { background: #1e293b; border-radius: 12px; border: 1px solid #334155; overflow: hidden; transition: border-color 0.3s; }
+        .slot:hover { border-color: #475569; }
+        .slot.uploaded { border-color: #65a30d; }
+        .slot.uploaded .slot-status { background: #65a30d; }
+
+        .slot-status { background: #ef4444; color: white; font-size: 11px; font-weight: 600; padding: 4px 10px; display: inline-block; border-radius: 0 0 6px 0; }
+
+        .slot-header { padding: 12px 16px 8px; }
+        .slot-page { font-size: 11px; color: #65a30d; font-family: monospace; }
+        .slot-section { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-top: 4px; }
+
+        .slot-desc { padding: 0 16px 12px; font-size: 13px; color: #94a3b8; line-height: 1.5; background: #162032; margin: 0 12px; border-radius: 6px; padding: 10px 12px; border-left: 3px solid #f59e0b; }
+
+        .slot-preview { position: relative; width: 100%; aspect-ratio: 16/10; background: #0f172a; display: flex; align-items: center; justify-content: center; margin-top: 12px; overflow: hidden; }
+        .slot-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .slot-preview .placeholder { color: #334155; font-size: 48px; }
+
+        .slot-upload { padding: 12px 16px 16px; }
+        .upload-area { border: 2px dashed #334155; border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.3s; position: relative; }
+        .upload-area:hover { border-color: #65a30d; background: rgba(101, 163, 13, 0.05); }
+        .upload-area.dragover { border-color: #65a30d; background: rgba(101, 163, 13, 0.1); }
+        .upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .upload-text { font-size: 13px; color: #64748b; }
+        .upload-text strong { color: #65a30d; }
+
+        .upload-info { margin-top: 8px; font-size: 11px; color: #475569; display: flex; justify-content: space-between; }
+
+        .progress { height: 4px; background: #1e293b; border-radius: 2px; margin-top: 8px; overflow: hidden; display: none; }
+        .progress-bar { height: 100%; background: #65a30d; border-radius: 2px; transition: width 0.3s; }
+
+        .slot-actions { padding: 0 16px 12px; display: flex; gap: 8px; }
+        .btn { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; }
+        .btn-delete { background: #7f1d1d; color: #fca5a5; }
+        .btn-delete:hover { background: #991b1b; }
+        .btn-download { background: #1e3a5f; color: #93c5fd; }
+        .btn-download:hover { background: #1e40af; }
+
+        .export-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #1e293b; border-top: 2px solid #65a30d; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; z-index: 100; }
+        .btn-export { background: #65a30d; color: white; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; }
+        .btn-export:hover { background: #4d7c0f; }
+        .btn-import { background: #334155; color: #e2e8f0; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; position: relative; }
+        .btn-import:hover { background: #475569; }
+        .btn-import input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+        .toast { position: fixed; top: 20px; right: 20px; background: #65a30d; color: white; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; z-index: 200; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; padding: 12px; gap: 12px; }
+            .stats { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Админка фото — ОТЕЛЬ-СЕРВИС ЮГ</h1>
+        <p>Загрузите фото для страниц сайта. Каждое фото автоматически сжимается до 80 КБ.</p>
+    </div>
+
+    <div class="stats" id="stats"></div>
+
+    <div class="filters" id="filters"></div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="export-bar">
+        <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn-export" onclick="exportAll()">Скачать всё (ZIP)</button>
+            <button class="btn-import">
+                Импорт JSON
+                <input type="file" accept=".json" onchange="importJSON(event)">
+            </button>
+        </div>
+        <div style="font-size:12px;color:#64748b;" id="last-save"></div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+    // ==================== CORE STATE ====================
+    const DB_KEY = 'hotel-admin-images';
+    let slots = [];
+    let images = {}; // { slotId: base64string }
+
+    // Load state from localStorage
+    function loadState() {
+        try {
+            const saved = localStorage.getItem(DB_KEY);
+            if (saved) {
+                const data = JSON.parse(saved);
+                images = data.images || {};
+                return true;
+            }
+        } catch(e) { console.error('Load error:', e); }
+        return false;
+    }
+
+    function saveState() {
+        try {
+            const data = { images, updated: new Date().toISOString() };
+            localStorage.setItem(DB_KEY, JSON.stringify(data));
+            updateLastSave();
+        } catch(e) {
+            showToast('Ошибка сохранения! Возможно переполнен localStorage', true);
+        }
+    }
+
+    // ==================== IMAGE COMPRESSION ====================
+    function compressImage(file, maxSizeKB, maxWidth) {
+        maxSizeKB = maxSizeKB || 80;
+        maxWidth = maxWidth || 1200;
+
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width;
+                    let h = img.height;
+
+                    // Resize if too large
+                    if (w > maxWidth) {
+                        h = Math.round(h * maxWidth / w);
+                        w = maxWidth;
+                    }
+
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    // Binary search for quality that fits under maxSizeKB
+                    let lo = 0.1, hi = 0.92, best = null;
+
+                    for (let i = 0; i < 10; i++) {
+                        const mid = (lo + hi) / 2;
+                        const dataUrl = canvas.toDataURL('image/jpeg', mid);
+                        const sizeKB = Math.round((dataUrl.length - 'data:image/jpeg;base64,'.length) * 3 / 4 / 1024);
+
+                        if (sizeKB <= maxSizeKB) {
+                            best = dataUrl;
+                            lo = mid;
+                        } else {
+                            hi = mid;
+                        }
+                    }
+
+                    if (!best) {
+                        best = canvas.toDataURL('image/jpeg', 0.1);
+                    }
+
+                    const finalSize = Math.round((best.length - 'data:image/jpeg;base64,'.length) * 3 / 4 / 1024);
+                    resolve({ dataUrl: best, sizeKB: finalSize, width: w, height: h });
+                };
+                img.onerror = reject;
+                img.src = e.target.result;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // ==================== UI RENDERING ====================
+    function renderStats() {
+        const total = slots.length;
+        const uploaded = slots.filter(s => images[s.id]).length;
+        const missing = total - uploaded;
+
+        document.getElementById('stats').innerHTML = `
+            <div class="stat"><div class="stat-num">${total}</div><div class="stat-label">Всего слотов</div></div>
+            <div class="stat"><div class="stat-num" style="color:#22c55e">${uploaded}</div><div class="stat-label">Загружено</div></div>
+            <div class="stat"><div class="stat-num" style="color:#ef4444">${missing}</div><div class="stat-label">Ожидают фото</div></div>
+            <div class="stat"><div class="stat-num" style="color:#f59e0b">${Math.round(uploaded/total*100)||0}%</div><div class="stat-label">Прогресс</div></div>
+        `;
+    }
+
+    function renderFilters() {
+        const categories = new Set();
+        slots.forEach(s => {
+            const cat = s.id.split('-')[0];
+            categories.add(cat);
+        });
+
+        const catLabels = {
+            hero: 'Главные баннеры', cat: 'Каталог', blog: 'Блог', sol: 'Решения', svc: 'Услуги', about: 'О компании'
+        };
+
+        let html = '<button class="filter-btn active" onclick="filterSlots(\'all\', this)">Все</button>';
+        html += '<button class="filter-btn" onclick="filterSlots(\'missing\', this)">Без фото</button>';
+        html += '<button class="filter-btn" onclick="filterSlots(\'uploaded\', this)">С фото</button>';
+        categories.forEach(cat => {
+            html += `<button class="filter-btn" onclick="filterSlots('${cat}', this)">${catLabels[cat] || cat}</button>`;
+        });
+
+        document.getElementById('filters').innerHTML = html;
+    }
+
+    function renderGrid(filter) {
+        filter = filter || 'all';
+        let filtered = slots;
+
+        if (filter === 'missing') filtered = slots.filter(s => !images[s.id]);
+        else if (filter === 'uploaded') filtered = slots.filter(s => images[s.id]);
+        else if (filter !== 'all') filtered = slots.filter(s => s.id.startsWith(filter + '-'));
+
+        const html = filtered.map(slot => {
+            const hasImage = !!images[slot.id];
+            return `
+            <div class="slot ${hasImage ? 'uploaded' : ''}" id="slot-${slot.id}">
+                <div class="slot-status">${hasImage ? 'ЗАГРУЖЕНО' : 'ОЖИДАЕТ ФОТО'}</div>
+                <div class="slot-header">
+                    <div class="slot-page">${escHtml(slot.page)}</div>
+                    <div class="slot-section">${escHtml(slot.section)}</div>
+                </div>
+                <div class="slot-desc">${escHtml(slot.description)}</div>
+                <div class="slot-preview">
+                    ${hasImage
+                        ? `<img src="${images[slot.id]}" alt="${escHtml(slot.section)}">`
+                        : `<svg class="placeholder" width="48" height="48" viewBox="0 0 24 24" fill="currentColor"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>`
+                    }
+                </div>
+                <div class="slot-upload">
+                    <div class="upload-area" id="drop-${slot.id}"
+                         ondragover="event.preventDefault();this.classList.add('dragover')"
+                         ondragleave="this.classList.remove('dragover')"
+                         ondrop="event.preventDefault();this.classList.remove('dragover');handleFile(event.dataTransfer.files[0],'${slot.id}')">
+                        <input type="file" accept="image/*" onchange="handleFile(this.files[0],'${slot.id}')">
+                        <div class="upload-text">
+                            ${hasImage ? 'Заменить фото' : '<strong>Нажмите</strong> или перетащите фото сюда'}
+                        </div>
+                    </div>
+                    <div class="upload-info">
+                        <span>Файл: ${slot.filename}</span>
+                        <span>Макс: 80 КБ (авто-сжатие)</span>
+                    </div>
+                    <div class="progress" id="progress-${slot.id}"><div class="progress-bar" style="width:0%"></div></div>
+                </div>
+                ${hasImage ? `
+                <div class="slot-actions">
+                    <button class="btn btn-delete" onclick="deleteImage('${slot.id}')">Удалить</button>
+                    <button class="btn btn-download" onclick="downloadImage('${slot.id}')">Скачать</button>
+                </div>` : ''}
+            </div>`;
+        }).join('');
+
+        document.getElementById('grid').innerHTML = html;
+    }
+
+    // ==================== HANDLERS ====================
+    let currentFilter = 'all';
+
+    function filterSlots(filter, btn) {
+        currentFilter = filter;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        renderGrid(filter);
+    }
+
+    async function handleFile(file, slotId) {
+        if (!file || !file.type.startsWith('image/')) {
+            showToast('Выберите файл изображения', true);
+            return;
+        }
+
+        const progress = document.getElementById('progress-' + slotId);
+        if (progress) { progress.style.display = 'block'; progress.querySelector('.progress-bar').style.width = '30%'; }
+
+        try {
+            const result = await compressImage(file, 80, 1200);
+
+            if (progress) progress.querySelector('.progress-bar').style.width = '90%';
+
+            images[slotId] = result.dataUrl;
+            saveState();
+
+            if (progress) progress.querySelector('.progress-bar').style.width = '100%';
+
+            showToast(`Загружено: ${result.width}x${result.height}, ${result.sizeKB} КБ`);
+
+            renderStats();
+            renderGrid(currentFilter);
+        } catch(e) {
+            showToast('Ошибка сжатия: ' + e.message, true);
+        }
+    }
+
+    function deleteImage(slotId) {
+        if (!confirm('Удалить фото?')) return;
+        delete images[slotId];
+        saveState();
+        renderStats();
+        renderGrid(currentFilter);
+        showToast('Фото удалено');
+    }
+
+    function downloadImage(slotId) {
+        const slot = slots.find(s => s.id === slotId);
+        if (!images[slotId] || !slot) return;
+
+        const a = document.createElement('a');
+        a.href = images[slotId];
+        a.download = slot.filename;
+        a.click();
+    }
+
+    // ==================== EXPORT / IMPORT ====================
+    async function exportAll() {
+        const uploaded = slots.filter(s => images[s.id]);
+        if (uploaded.length === 0) {
+            showToast('Нет загруженных фото для экспорта', true);
+            return;
+        }
+
+        showToast('Подготовка архива...');
+
+        // Export as JSON with all images + generate download links
+        const exportData = {
+            meta: { exported: new Date().toISOString(), count: uploaded.length },
+            slots: slots.map(s => ({
+                ...s,
+                uploaded: !!images[s.id]
+            })),
+            images: {}
+        };
+
+        uploaded.forEach(s => {
+            exportData.images[s.id] = {
+                filename: s.filename,
+                dataUrl: images[s.id]
+            };
+        });
+
+        const blob = new Blob([JSON.stringify(exportData)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'hotel-images-' + new Date().toISOString().slice(0,10) + '.json';
+        a.click();
+        URL.revokeObjectURL(a.href);
+
+        showToast(`Экспортировано ${uploaded.length} фото`);
+    }
+
+    function importJSON(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (data.images) {
+                    let count = 0;
+                    Object.entries(data.images).forEach(([id, val]) => {
+                        if (val.dataUrl) {
+                            images[id] = val.dataUrl;
+                            count++;
+                        }
+                    });
+                    saveState();
+                    renderStats();
+                    renderGrid(currentFilter);
+                    showToast(`Импортировано ${count} фото`);
+                }
+            } catch(e) {
+                showToast('Ошибка импорта: ' + e.message, true);
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // ==================== INDIVIDUAL FILE EXPORT ====================
+    function exportFiles() {
+        const uploaded = slots.filter(s => images[s.id]);
+        uploaded.forEach(s => {
+            downloadImage(s.id);
+        });
+    }
+
+    // ==================== UTILITIES ====================
+    function escHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function showToast(msg, isError) {
+        const t = document.getElementById('toast');
+        t.textContent = msg;
+        t.style.background = isError ? '#dc2626' : '#65a30d';
+        t.style.display = 'block';
+        setTimeout(() => { t.style.display = 'none'; }, 3000);
+    }
+
+    function updateLastSave() {
+        const el = document.getElementById('last-save');
+        if (el) el.textContent = 'Сохранено: ' + new Date().toLocaleTimeString('ru');
+    }
+
+    // ==================== INIT ====================
+    async function init() {
+        // Load slots from JSON
+        try {
+            const resp = await fetch('image-slots.json');
+            const data = await resp.json();
+            slots = data.slots;
+        } catch(e) {
+            // Fallback: load from embedded data if fetch fails (opened as file://)
+            showToast('Не удалось загрузить image-slots.json. Откройте через http-сервер.', true);
+            return;
+        }
+
+        loadState();
+        renderStats();
+        renderFilters();
+        renderGrid();
+        updateLastSave();
+    }
+
+    init();
+    </script>
+</body>
+</html>

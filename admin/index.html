@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админка фото | ОТЕЛЬ-СЕРВИС ЮГ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .slot-card { transition: all 0.2s; }
+        .slot-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .slot-uploaded { border-left: 4px solid #65a30d; }
+        .slot-empty { border-left: 4px solid #ef4444; }
+        .slot-missing { border-left: 4px solid #f59e0b; }
+        .drop-zone { transition: all 0.2s; }
+        .drop-zone.dragover { border-color: #65a30d; background: #f0fdf4; }
+        .toast { animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s; }
+        @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } }
+        @keyframes fadeOut { to { opacity: 0; } }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold text-gray-900">Админка фото</h1>
+                <p class="text-sm text-gray-500">ОТЕЛЬ-СЕРВИС ЮГ — hotel-service-krd.ru</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div id="stats" class="text-sm text-gray-500"></div>
+                <select id="filter" class="text-sm border border-gray-300 rounded-lg px-3 py-2">
+                    <option value="all">Все слоты</option>
+                    <option value="empty">Без фото</option>
+                    <option value="uploaded">Загружены</option>
+                    <option value="missing">Отсутствует файл</option>
+                </select>
+                <input id="search" type="text" placeholder="Поиск..." class="text-sm border border-gray-300 rounded-lg px-3 py-2 w-48">
+            </div>
+        </div>
+    </header>
+
+    <!-- Toast container -->
+    <div id="toasts" class="fixed top-20 right-4 z-50 space-y-2"></div>
+
+    <!-- Main -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Progress bar -->
+        <div class="mb-8 bg-white rounded-xl p-6 border border-gray-200">
+            <div class="flex justify-between items-center mb-2">
+                <span class="font-semibold text-gray-800">Прогресс загрузки фото</span>
+                <span id="progress-text" class="text-sm font-bold text-green-600"></span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="progress-bar" class="bg-green-500 h-3 rounded-full transition-all duration-500" style="width:0%"></div>
+            </div>
+        </div>
+
+        <!-- Compression settings -->
+        <div class="mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="text-blue-600 text-2xl">&#9881;</span>
+                <div>
+                    <p class="font-semibold text-blue-900">Авто-сжатие при загрузке</p>
+                    <p class="text-sm text-blue-700">Каждая картинка сжимается до указанного размера прямо в браузере перед сохранением</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <label class="text-sm font-medium text-blue-800">Макс. размер:</label>
+                <input id="max-size" type="number" value="80" min="20" max="500" step="10" class="w-20 text-center border border-blue-300 rounded-lg px-2 py-1 text-sm font-bold">
+                <span class="text-sm text-blue-700 font-medium">КБ</span>
+            </div>
+        </div>
+
+        <!-- Slots grid -->
+        <div id="slots-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full text-center py-20 text-gray-400">Загрузка...</div>
+        </div>
+    </main>
+
+    <script>
+    const API = '';
+    let allSlots = [];
+
+    // === INIT ===
+    async function init() {
+        const resp = await fetch(API + '/api/slots');
+        const data = await resp.json();
+        allSlots = data.slots;
+        render();
+        document.getElementById('filter').addEventListener('change', render);
+        document.getElementById('search').addEventListener('input', render);
+    }
+
+    // === RENDER ===
+    function render() {
+        const filter = document.getElementById('filter').value;
+        const search = document.getElementById('search').value.toLowerCase();
+        const grid = document.getElementById('slots-grid');
+
+        let filtered = allSlots;
+        if (filter !== 'all') filtered = filtered.filter(s => s.status === filter);
+        if (search) filtered = filtered.filter(s =>
+            s.description.toLowerCase().includes(search) ||
+            s.page.toLowerCase().includes(search) ||
+            s.filename.toLowerCase().includes(search)
+        );
+
+        const uploaded = allSlots.filter(s => s.status === 'uploaded').length;
+        const total = allSlots.length;
+        const pct = Math.round(uploaded / total * 100);
+        document.getElementById('progress-bar').style.width = pct + '%';
+        document.getElementById('progress-text').textContent = `${uploaded} / ${total} (${pct}%)`;
+        document.getElementById('stats').textContent = `${total} слотов`;
+
+        if (filtered.length === 0) {
+            grid.innerHTML = '<div class="col-span-full text-center py-20 text-gray-400">Нет слотов по фильтру</div>';
+            return;
+        }
+
+        grid.innerHTML = filtered.map(slot => {
+            const statusClass = 'slot-' + slot.status;
+            const statusBadge = {
+                'uploaded': '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-green-100 text-green-700">Загружено</span>',
+                'empty': '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-700">Нет фото</span>',
+                'missing': '<span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-yellow-100 text-yellow-700">Файл отсутствует</span>'
+            }[slot.status];
+
+            const sizeInfo = slot.file_size_kb
+                ? `<span class="text-xs text-gray-400">${slot.file_size_kb} КБ</span>`
+                : '';
+
+            const altText = slot.alt_text || slot.page + ' — ОТЕЛЬ-СЕРВИС ЮГ';
+            const altEscaped = altText.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+            const preview = slot.status === 'uploaded'
+                ? `<img src="/image/${slot.filename}?t=${Date.now()}" alt="${altEscaped}" class="w-full h-40 object-cover rounded-lg mb-3" onerror="this.parentElement.querySelector('.no-img')?.classList.remove('hidden'); this.style.display='none'">
+                   <div class="no-img hidden w-full h-40 bg-red-50 rounded-lg mb-3 flex items-center justify-center text-red-400 text-sm">Файл повреждён</div>`
+                : `<div class="w-full h-40 bg-gray-100 rounded-lg mb-3 flex items-center justify-center text-gray-300">
+                     <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                   </div>`;
+
+            return `
+            <div class="slot-card ${statusClass} bg-white rounded-xl p-5 border border-gray-200" data-id="${slot.id}">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="text-xs font-mono text-gray-400">${slot.page}</span>
+                    ${statusBadge}
+                </div>
+                ${preview}
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3">
+                    <p class="text-sm text-amber-900 font-medium mb-1">Нужно фото:</p>
+                    <p class="text-sm text-amber-800">${slot.description}</p>
+                </div>
+                <div class="text-xs text-gray-400 mb-2 flex justify-between">
+                    <span class="font-mono">${slot.filename}</span>
+                    ${sizeInfo}
+                </div>
+                <div class="mb-3">
+                    <label class="text-xs font-medium text-gray-500 block mb-1">ALT-текст (SEO):</label>
+                    <input type="text" value="${altEscaped}"
+                           onchange="updateAlt('${slot.id}', this.value)"
+                           class="w-full text-xs border border-gray-200 rounded px-2 py-1.5 text-gray-700 focus:border-green-400 focus:ring-1 focus:ring-green-400 outline-none"
+                           placeholder="Описание картинки для SEO">
+                </div>
+                <div class="drop-zone border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-green-400 hover:bg-green-50"
+                     onclick="this.querySelector('input').click()"
+                     ondragover="event.preventDefault(); this.classList.add('dragover')"
+                     ondragleave="this.classList.remove('dragover')"
+                     ondrop="handleDrop(event, '${slot.id}', '${slot.filename}')">
+                    <input type="file" accept="image/*" class="hidden" onchange="handleFile(this.files[0], '${slot.id}', '${slot.filename}')">
+                    <p class="text-sm text-gray-500">${slot.status === 'uploaded' ? 'Заменить фото' : 'Загрузить фото'}</p>
+                    <p class="text-xs text-gray-400 mt-1">Перетащи сюда или кликни</p>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    // === FILE HANDLING ===
+    function handleDrop(e, slotId, filename) {
+        e.preventDefault();
+        e.currentTarget.classList.remove('dragover');
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+            handleFile(file, slotId, filename);
+        }
+    }
+
+    async function handleFile(file, slotId, filename) {
+        if (!file) return;
+        const maxKB = parseInt(document.getElementById('max-size').value) || 80;
+
+        // Show loading state
+        const card = document.querySelector(`[data-id="${slotId}"]`);
+        const dropZone = card.querySelector('.drop-zone');
+        dropZone.innerHTML = '<p class="text-sm text-green-600 animate-pulse">Сжимаю и загружаю...</p>';
+
+        try {
+            const compressed = await compressImage(file, maxKB);
+            const base64 = await toBase64(compressed);
+
+            const resp = await fetch(API + '/api/upload', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    slot_id: slotId,
+                    filename: filename,
+                    image_data: base64
+                })
+            });
+            const result = await resp.json();
+
+            if (result.ok) {
+                // Update local state
+                const slot = allSlots.find(s => s.id === slotId);
+                if (slot) {
+                    slot.status = 'uploaded';
+                    slot.file_size_kb = result.size_kb;
+                }
+                showToast(`${filename} — ${result.size_kb} КБ`, 'success');
+                render();
+            } else {
+                showToast('Ошибка: ' + result.error, 'error');
+                render();
+            }
+        } catch (err) {
+            showToast('Ошибка: ' + err.message, 'error');
+            render();
+        }
+    }
+
+    // === IMAGE COMPRESSION ===
+    function compressImage(file, maxKB) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+
+                    // Scale down if very large
+                    let w = img.width;
+                    let h = img.height;
+                    const MAX_DIM = 1200;
+                    if (w > MAX_DIM || h > MAX_DIM) {
+                        const ratio = Math.min(MAX_DIM / w, MAX_DIM / h);
+                        w = Math.round(w * ratio);
+                        h = Math.round(h * ratio);
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+
+                    // Binary search for quality to hit target size
+                    let lo = 0.1, hi = 0.92, mid, blob;
+                    const targetBytes = maxKB * 1024;
+
+                    function tryQuality(quality) {
+                        return new Promise(res => {
+                            canvas.toBlob(b => res(b), 'image/jpeg', quality);
+                        });
+                    }
+
+                    async function search() {
+                        // First try highest quality
+                        blob = await tryQuality(hi);
+                        if (blob.size <= targetBytes) {
+                            resolve(blob);
+                            return;
+                        }
+
+                        // Binary search
+                        for (let i = 0; i < 8; i++) {
+                            mid = (lo + hi) / 2;
+                            blob = await tryQuality(mid);
+                            if (blob.size > targetBytes) {
+                                hi = mid;
+                            } else {
+                                lo = mid;
+                            }
+                        }
+
+                        // If still too large, reduce dimensions
+                        if (blob.size > targetBytes) {
+                            const scale = Math.sqrt(targetBytes / blob.size) * 0.9;
+                            canvas.width = Math.round(w * scale);
+                            canvas.height = Math.round(h * scale);
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                            blob = await tryQuality(0.7);
+                        }
+
+                        resolve(blob);
+                    }
+                    search();
+                };
+                img.onerror = reject;
+                img.src = e.target.result;
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    function toBase64(blob) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    }
+
+    // === UPDATE ALT TEXT ===
+    async function updateAlt(slotId, value) {
+        try {
+            const resp = await fetch(API + '/api/update-alt', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ slot_id: slotId, alt_text: value })
+            });
+            const result = await resp.json();
+            if (result.ok) {
+                const slot = allSlots.find(s => s.id === slotId);
+                if (slot) slot.alt_text = value;
+                showToast('ALT сохранён', 'success');
+            } else {
+                showToast('Ошибка: ' + result.error, 'error');
+            }
+        } catch (err) {
+            showToast('Ошибка: ' + err.message, 'error');
+        }
+    }
+
+    // === TOAST ===
+    function showToast(msg, type) {
+        const container = document.getElementById('toasts');
+        const colors = type === 'success'
+            ? 'bg-green-600 text-white'
+            : 'bg-red-600 text-white';
+        const el = document.createElement('div');
+        el.className = `toast ${colors} px-4 py-3 rounded-lg shadow-lg text-sm font-medium max-w-sm`;
+        el.textContent = msg;
+        container.appendChild(el);
+        setTimeout(() => el.remove(), 3000);
+    }
+
+    // === START ===
+    init();
+    </script>
+</body>
+</html>

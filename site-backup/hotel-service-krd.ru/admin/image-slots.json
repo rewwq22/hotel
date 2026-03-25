@@ -1,0 +1,371 @@
+{
+  "meta": {
+    "version": 1,
+    "updated": "2026-03-23T21:00:00Z",
+    "description": "Слоты для загрузки фото. Каждый слот привязан к img на конкретной странице через data-img-slot атрибут."
+  },
+  "slots": [
+    {
+      "id": "hero-main",
+      "page": "/index.html",
+      "section": "Главная — Hero-баннер",
+      "description": "Главный баннер сайта: светлый солнечный кадр гостиничного номера с белоснежным постельным бельём на большой кровати. Панорамный горизонтальный кадр.",
+      "filename": "hero-main.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "hero-optom",
+      "page": "/postelnoe-bele-optom/index.html",
+      "section": "Постельное бельё оптом — Hero",
+      "description": "Стопка аккуратно сложенных белых комплектов постельного белья в упаковке, оптовый склад или полки с текстилем.",
+      "filename": "hero-optom.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "hero-region",
+      "page": "Региональные: /krasnodar/, /sochi/, /anapa/, /gelendzhik/, /rostov-na-donu/",
+      "section": "Региональные лендинги — Hero",
+      "description": "Красивый кадр гостиничного номера с белоснежным бельём, подходящий для всех региональных страниц. Универсальный.",
+      "filename": "hero-region.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "cat-polotenca-hero",
+      "page": "/katalog/polotenca/index.html",
+      "section": "Полотенца — Hero",
+      "description": "Стопка белых махровых полотенец для отелей, аккуратно сложенных. Крупный план.",
+      "filename": "cat-polotenca-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-polotenca-1",
+      "page": "/katalog/polotenca/index.html",
+      "section": "Полотенца — Карточка 1: Банные",
+      "description": "Банное полотенце 70х140 белое, махровое, развёрнутое или на крючке в ванной комнате отеля.",
+      "filename": "cat-polotenca-1.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-polotenca-2",
+      "page": "/katalog/polotenca/index.html",
+      "section": "Полотенца — Карточка 2: Для рук",
+      "description": "Маленькое полотенце для рук 50х100 белое, сложенное у раковины в ванной отеля.",
+      "filename": "cat-polotenca-2.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-polotenca-3",
+      "page": "/katalog/polotenca/index.html",
+      "section": "Полотенца — Карточка 3: Коврик для ног",
+      "description": "Белый махровый коврик для ног на полу ванной комнаты гостиницы.",
+      "filename": "cat-polotenca-3.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "cat-podushki-hero",
+      "page": "/katalog/podushki/index.html",
+      "section": "Подушки — Hero",
+      "description": "Две белые подушки 50х70 на кровати в гостиничном номере, крупный план с красивым освещением.",
+      "filename": "cat-podushki-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-podushki-1",
+      "page": "/katalog/podushki/index.html",
+      "section": "Подушки — Карточка 1: 50х70",
+      "description": "Подушка 50х70 в белой наволочке, вид сбоку, чтобы была видна толщина.",
+      "filename": "cat-podushki-1.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-podushki-2",
+      "page": "/katalog/podushki/index.html",
+      "section": "Подушки — Карточка 2: 70х70",
+      "description": "Подушка 70х70 в белой наволочке на кровати, вид сверху-сбоку.",
+      "filename": "cat-podushki-2.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-podushki-3",
+      "page": "/katalog/podushki/index.html",
+      "section": "Подушки — Карточка 3: Гипоаллергенные",
+      "description": "Подушка с видимой этикеткой или маркировкой «гипоаллергенно», крупный план.",
+      "filename": "cat-podushki-3.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "cat-odeyala-hero",
+      "page": "/katalog/odeyala/index.html",
+      "section": "Одеяла — Hero",
+      "description": "Белое одеяло на кровати в гостиничном номере, аккуратно заправленное или слегка откинутое.",
+      "filename": "cat-odeyala-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-odeyala-1",
+      "page": "/katalog/odeyala/index.html",
+      "section": "Одеяла — Карточка 1: Всесезонное",
+      "description": "Одеяло средней толщины, сложенное, белое, на нейтральном фоне.",
+      "filename": "cat-odeyala-1.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-odeyala-2",
+      "page": "/katalog/odeyala/index.html",
+      "section": "Одеяла — Карточка 2: Лёгкое летнее",
+      "description": "Тонкое лёгкое белое одеяло, возможно просвечивает свет — летний вариант.",
+      "filename": "cat-odeyala-2.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-odeyala-3",
+      "page": "/katalog/odeyala/index.html",
+      "section": "Одеяла — Карточка 3: Тёплое зимнее",
+      "description": "Толстое плотное белое одеяло, вид сбоку или сложенное — видна пышность.",
+      "filename": "cat-odeyala-3.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "cat-namatrasniki-hero",
+      "page": "/katalog/namatrasniki/index.html",
+      "section": "Наматрасники — Hero",
+      "description": "Белый наматрасник надет на матрас, видна резинка по углам. Крупный план угла кровати.",
+      "filename": "cat-namatrasniki-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-namatrasniki-1",
+      "page": "/katalog/namatrasniki/index.html",
+      "section": "Наматрасники — Карточка 1: На резинке",
+      "description": "Наматрасник с резинкой по периметру, натянутый на угол матраса.",
+      "filename": "cat-namatrasniki-1.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-namatrasniki-2",
+      "page": "/katalog/namatrasniki/index.html",
+      "section": "Наматрасники — Карточка 2: Водонепроницаемый",
+      "description": "Наматрасник водонепроницаемый, мембранная ткань, крупный план текстуры.",
+      "filename": "cat-namatrasniki-2.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-namatrasniki-3",
+      "page": "/katalog/namatrasniki/index.html",
+      "section": "Наматрасники — Карточка 3: Стёганый",
+      "description": "Стёганый наматрасник, видна простёжка, на кровати или сложенный.",
+      "filename": "cat-namatrasniki-3.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "cat-halaty-hero",
+      "page": "/katalog/halaty/index.html",
+      "section": "Халаты — Hero",
+      "description": "Белый махровый халат на вешалке в ванной комнате гостиничного номера. Или модель в халате.",
+      "filename": "cat-halaty-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-halaty-1",
+      "page": "/katalog/halaty/index.html",
+      "section": "Халаты — Карточка 1: Махровый",
+      "description": "Белый махровый халат, крупный план текстуры махры, пояс завязан.",
+      "filename": "cat-halaty-1.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-halaty-2",
+      "page": "/katalog/halaty/index.html",
+      "section": "Халаты — Карточка 2: Вафельный",
+      "description": "Белый вафельный халат, видна вафельная текстура ткани.",
+      "filename": "cat-halaty-2.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-halaty-3",
+      "page": "/katalog/halaty/index.html",
+      "section": "Халаты — Карточка 3: С логотипом",
+      "description": "Халат с вышитым логотипом на груди (можно любой отельный логотип). Крупный план вышивки.",
+      "filename": "cat-halaty-3.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "cat-tapochki-hero",
+      "page": "/katalog/tapochki/index.html",
+      "section": "Тапочки — Hero",
+      "description": "Пара белых одноразовых гостиничных тапочек в индивидуальной упаковке, рядом с кроватью.",
+      "filename": "cat-tapochki-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-tapochki-1",
+      "page": "/katalog/tapochki/index.html",
+      "section": "Тапочки — Карточка 1: Открытые",
+      "description": "Белые открытые (без задника) одноразовые тапочки, вид сверху.",
+      "filename": "cat-tapochki-1.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-tapochki-2",
+      "page": "/katalog/tapochki/index.html",
+      "section": "Тапочки — Карточка 2: Закрытые",
+      "description": "Закрытые одноразовые тапочки для отеля, белые, в упаковке.",
+      "filename": "cat-tapochki-2.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-tapochki-3",
+      "page": "/katalog/tapochki/index.html",
+      "section": "Тапочки — Карточка 3: Упаковка оптом",
+      "description": "Коробка/пакет с тапочками оптом (50-100 пар), вид упаковки для оптовых покупателей.",
+      "filename": "cat-tapochki-3.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "cat-komplekty-hero",
+      "page": "/katalog/komplekty/index.html",
+      "section": "Комплекты КПБ — Hero",
+      "description": "Комплект постельного белья в упаковке: простыня, пододеяльник, наволочки — белый, сложенный.",
+      "filename": "cat-komplekty-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-komplekty-1",
+      "page": "/katalog/komplekty/index.html",
+      "section": "Комплекты — Карточка 1: 1.5 спальный",
+      "description": "Комплект 1.5-спальный белый сложенный в стопку, видна этикетка с размером.",
+      "filename": "cat-komplekty-1.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-komplekty-2",
+      "page": "/katalog/komplekty/index.html",
+      "section": "Комплекты — Карточка 2: 2-спальный",
+      "description": "Комплект 2-спальный на двуспальной кровати в отеле, вид сверху.",
+      "filename": "cat-komplekty-2.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-komplekty-3",
+      "page": "/katalog/komplekty/index.html",
+      "section": "Комплекты — Карточка 3: Евро",
+      "description": "Комплект Евро-стандарт заправленный на кровати king-size в люкс-номере.",
+      "filename": "cat-komplekty-3.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "cat-poplin-hero",
+      "page": "/katalog/poplin/index.html",
+      "section": "Поплин — Hero",
+      "description": "Крупный план белой поплиновой ткани, видна текстура рубчика. Мягкий свет.",
+      "filename": "cat-poplin-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-poplin-1",
+      "page": "/katalog/poplin/index.html",
+      "section": "Поплин — Карточка 1: 1.5 спальный",
+      "description": "Комплект поплин 1.5-спальный белый в упаковке или на кровати.",
+      "filename": "cat-poplin-1.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-poplin-2",
+      "page": "/katalog/poplin/index.html",
+      "section": "Поплин — Карточка 2: 2-спальный",
+      "description": "Комплект поплин 2-спальный на кровати, вид с угла.",
+      "filename": "cat-poplin-2.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "cat-poplin-3",
+      "page": "/katalog/poplin/index.html",
+      "section": "Поплин — Карточка 3: Евро",
+      "description": "Комплект поплин Евро на большой кровати в номере отеля.",
+      "filename": "cat-poplin-3.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "blog-pochemu-beloe",
+      "page": "/blog/pochemu-v-otelyah-beloe-bele/index.html",
+      "section": "Статья — Обложка",
+      "description": "Белоснежная кровать в номере отеля, подчёркивающая чистоту и свежесть белого белья.",
+      "filename": "blog-pochemu-beloe.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "blog-kak-stirat",
+      "page": "/blog/kak-stirat-gostinichnoe-bele/index.html",
+      "section": "Статья — Обложка",
+      "description": "Промышленная стиральная машина в прачечной отеля, загрузка белого белья.",
+      "filename": "blog-kak-stirat.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "blog-gost",
+      "page": "/blog/gost-trebovaniya-k-belyu-v-gostinicah/index.html",
+      "section": "Статья — Обложка",
+      "description": "Документы/сертификаты рядом с текстилем, или бирка с маркировкой ГОСТ на ткани.",
+      "filename": "blog-gost.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "blog-raschet",
+      "page": "/blog/raschet-tekstilya-dlya-otkrytiya-gostinicy/index.html",
+      "section": "Статья — Обложка",
+      "description": "Кладовка отеля со стеллажами сложенного текстиля: стопки белья, полотенец, подушек.",
+      "filename": "blog-raschet.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "blog-satin-byaz",
+      "page": "/blog/satin-ili-byaz-chto-luchshe-dlya-otelya/index.html",
+      "section": "Статья — Обложка",
+      "description": "Два куска ткани рядом: гладкий блестящий сатин и матовая бязь. Сравнение текстур.",
+      "filename": "blog-satin-byaz.jpg",
+      "uploaded": false
+    },
+
+    {
+      "id": "sol-apartamenty-hero",
+      "page": "/resheniya/apartamenty/index.html",
+      "section": "Апартаменты — Hero",
+      "description": "Уютный интерьер апартаментов/квартиры посуточно с красиво заправленной кроватью.",
+      "filename": "sol-apartamenty-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "sol-bazy-hero",
+      "page": "/resheniya/bazy-otdyha/index.html",
+      "section": "Базы отдыха — Hero",
+      "description": "Глэмпинг-шатёр или домик базы отдыха с кроватью и текстилем внутри.",
+      "filename": "sol-bazy-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "svc-vyshivka-hero",
+      "page": "/uslugi/vyshivka-logotipa/index.html",
+      "section": "Вышивка логотипа — Hero",
+      "description": "Крупный план вышивки логотипа на полотенце или халате. Белые нитки на белом или золотые.",
+      "filename": "svc-vyshivka-hero.jpg",
+      "uploaded": false
+    },
+    {
+      "id": "about-hero",
+      "page": "/o-kompanii/index.html",
+      "section": "О компании — Hero",
+      "description": "Производственный цех или швейная мастерская с рулонами белой ткани и готовой продукцией.",
+      "filename": "about-hero.jpg",
+      "uploaded": false
+    }
+  ]
+}

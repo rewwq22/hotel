@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Экспорт фото для сервера | ОТЕЛЬ-СЕРВИС ЮГ</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f172a; color: #e2e8f0; padding: 32px; max-width: 900px; margin: 0 auto; }
+        h1 { color: #65a30d; margin-bottom: 8px; }
+        p { color: #94a3b8; margin-bottom: 24px; font-size: 14px; }
+        .card { background: #1e293b; border-radius: 12px; padding: 20px; margin-bottom: 16px; border: 1px solid #334155; }
+        .card h3 { color: #f1f5f9; margin-bottom: 8px; }
+        .card p { margin-bottom: 12px; }
+        .btn { padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; }
+        .btn-green { background: #65a30d; color: white; }
+        .btn-green:hover { background: #4d7c0f; }
+        .file-list { margin-top: 16px; }
+        .file-item { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #0f172a; border-radius: 6px; margin-bottom: 4px; font-size: 13px; font-family: monospace; }
+        .file-item .size { color: #65a30d; min-width: 60px; }
+        .file-item .name { color: #e2e8f0; }
+        .file-item .btn-dl { background: #334155; color: #93c5fd; padding: 4px 10px; border-radius: 4px; font-size: 11px; cursor: pointer; border: none; }
+        .file-item .btn-dl:hover { background: #475569; }
+        #status { margin-top: 16px; padding: 12px; border-radius: 8px; display: none; }
+        .status-ok { background: #14532d; color: #86efac; }
+        .status-err { background: #7f1d1d; color: #fca5a5; }
+    </style>
+</head>
+<body>
+    <h1>Экспорт фото для сервера</h1>
+    <p>Скачайте все загруженные фото как отдельные .jpg файлы и залейте в папку /image/ на сервере.</p>
+
+    <div class="card">
+        <h3>Шаг 1: Скачать все фото</h3>
+        <p>Каждое фото скачается как отдельный .jpg файл с правильным именем для сервера.</p>
+        <button class="btn btn-green" onclick="downloadAll()">Скачать все фото по одному</button>
+        <div class="file-list" id="file-list"></div>
+    </div>
+
+    <div class="card">
+        <h3>Шаг 2: Залить на сервер</h3>
+        <p>Загрузите все скачанные .jpg файлы в папку <code>/image/</code> на сервере через FTP (FileZilla).</p>
+        <p>После заливки фото будут отображаться на страницах сайта.</p>
+    </div>
+
+    <div id="status"></div>
+
+    <script>
+    var DB_KEY = 'hotel-admin-images';
+
+    function getImages() {
+        try {
+            var saved = localStorage.getItem(DB_KEY);
+            if (!saved) return {};
+            var data = JSON.parse(saved);
+            return data.images || {};
+        } catch(e) { return {}; }
+    }
+
+    function getSlots() {
+        // Inline slot filenames for offline use
+        return {
+            "hero-main": "hero-main.jpg",
+            "hero-optom": "hero-optom.jpg",
+            "hero-region": "hero-region.jpg",
+            "cat-polotenca-hero": "cat-polotenca-hero.jpg",
+            "cat-polotenca-1": "cat-polotenca-1.jpg",
+            "cat-polotenca-2": "cat-polotenca-2.jpg",
+            "cat-polotenca-3": "cat-polotenca-3.jpg",
+            "cat-podushki-hero": "cat-podushki-hero.jpg",
+            "cat-podushki-1": "cat-podushki-1.jpg",
+            "cat-podushki-2": "cat-podushki-2.jpg",
+            "cat-podushki-3": "cat-podushki-3.jpg",
+            "cat-odeyala-hero": "cat-odeyala-hero.jpg",
+            "cat-odeyala-1": "cat-odeyala-1.jpg",
+            "cat-odeyala-2": "cat-odeyala-2.jpg",
+            "cat-odeyala-3": "cat-odeyala-3.jpg",
+            "cat-namatrasniki-hero": "cat-namatrasniki-hero.jpg",
+            "cat-namatrasniki-1": "cat-namatrasniki-1.jpg",
+            "cat-namatrasniki-2": "cat-namatrasniki-2.jpg",
+            "cat-namatrasniki-3": "cat-namatrasniki-3.jpg",
+            "cat-halaty-hero": "cat-halaty-hero.jpg",
+            "cat-halaty-1": "cat-halaty-1.jpg",
+            "cat-halaty-2": "cat-halaty-2.jpg",
+            "cat-halaty-3": "cat-halaty-3.jpg",
+            "cat-tapochki-hero": "cat-tapochki-hero.jpg",
+            "cat-tapochki-1": "cat-tapochki-1.jpg",
+            "cat-tapochki-2": "cat-tapochki-2.jpg",
+            "cat-tapochki-3": "cat-tapochki-3.jpg",
+            "cat-komplekty-hero": "cat-komplekty-hero.jpg",
+            "cat-komplekty-1": "cat-komplekty-1.jpg",
+            "cat-komplekty-2": "cat-komplekty-2.jpg",
+            "cat-komplekty-3": "cat-komplekty-3.jpg",
+            "cat-poplin-hero": "cat-poplin-hero.jpg",
+            "cat-poplin-1": "cat-poplin-1.jpg",
+            "cat-poplin-2": "cat-poplin-2.jpg",
+            "cat-poplin-3": "cat-poplin-3.jpg",
+            "blog-pochemu-beloe": "blog-pochemu-beloe.jpg",
+            "blog-kak-stirat": "blog-kak-stirat.jpg",
+            "blog-gost": "blog-gost.jpg",
+            "blog-raschet": "blog-raschet.jpg",
+            "blog-satin-byaz": "blog-satin-byaz.jpg",
+            "sol-apartamenty-hero": "sol-apartamenty-hero.jpg",
+            "sol-bazy-hero": "sol-bazy-hero.jpg",
+            "svc-vyshivka-hero": "svc-vyshivka-hero.jpg",
+            "about-hero": "about-hero.jpg"
+        };
+    }
+
+    function init() {
+        var images = getImages();
+        var slotFiles = getSlots();
+        var listEl = document.getElementById('file-list');
+        var html = '';
+        var count = 0;
+
+        Object.keys(slotFiles).forEach(function(id) {
+            if (images[id]) {
+                count++;
+                var sizeKB = Math.round((images[id].length - 'data:image/jpeg;base64,'.length) * 3 / 4 / 1024);
+                html += '<div class="file-item">' +
+                    '<span class="size">' + sizeKB + ' КБ</span>' +
+                    '<span class="name">image/' + slotFiles[id] + '</span>' +
+                    '<button class="btn-dl" onclick="downloadOne(\'' + id + '\')">Скачать</button>' +
+                    '</div>';
+            }
+        });
+
+        if (count === 0) {
+            html = '<p style="color:#f59e0b;margin-top:12px;">Нет загруженных фото. Сначала загрузите фото в админке.</p>';
+        }
+
+        listEl.innerHTML = '<p style="color:#94a3b8;margin-bottom:8px;">' + count + ' файлов готово к скачиванию:</p>' + html;
+    }
+
+    function downloadOne(id) {
+        var images = getImages();
+        var slotFiles = getSlots();
+        if (!images[id]) return;
+
+        var a = document.createElement('a');
+        a.href = images[id];
+        a.download = slotFiles[id];
+        a.click();
+    }
+
+    function downloadAll() {
+        var images = getImages();
+        var slotFiles = getSlots();
+        var count = 0;
+        var delay = 0;
+
+        Object.keys(slotFiles).forEach(function(id) {
+            if (images[id]) {
+                count++;
+                setTimeout(function() { downloadOne(id); }, delay);
+                delay += 300; // Small delay between downloads
+            }
+        });
+
+        if (count > 0) {
+            var st = document.getElementById('status');
+            st.className = 'status-ok';
+            st.style.display = 'block';
+            st.textContent = 'Скачивание ' + count + ' файлов... Загрузите их в /image/ на сервере через FTP.';
+        }
+    }
+
+    init();
+    </script>
+</body>
+</html>
